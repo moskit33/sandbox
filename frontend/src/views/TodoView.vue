@@ -1,57 +1,80 @@
 <template>
-  <main class="todo-container">
-    <h1>Список задач</h1>
+  <main class="max-w-4xl mx-auto p-8">
+    <h1 class="text-3xl font-bold mb-6">Список задач</h1>
 
-    <div v-if="todosStore.isLoading" class="loading">
+    <div
+      v-if="todosStore.isLoading"
+      class="p-4 my-4 bg-gray-100 rounded text-center"
+    >
       Загрузка данных... Пожалуйста, подождите.
     </div>
 
-    <div v-if="todosStore.error" class="error">
+    <div
+      v-if="todosStore.error"
+      class="p-4 my-4 bg-red-100 text-red-800 rounded text-center"
+    >
       {{ todosStore.error }}
     </div>
 
-    <form @submit.prevent="addTodo" class="todo-form">
-      <h2>Добавить новую задачу</h2>
-      <div class="form-group">
-        <label for="title">Название</label>
+    <form
+      @submit.prevent="addTodo"
+      class="bg-white p-6 rounded-lg shadow-md mb-8"
+    >
+      <h2 class="text-xl font-semibold mb-4">Добавить новую задачу</h2>
+      <div class="mb-4">
+        <label for="title" class="block font-medium mb-2">Название</label>
         <input
           id="title"
           v-model="newTodo.title"
           type="text"
           placeholder="Введите название задачи"
           required
+          class="w-full p-2 border border-gray-300 rounded"
         />
       </div>
-      <div class="form-group">
-        <label for="description">Описание</label>
+      <div class="mb-4">
+        <label for="description" class="block font-medium mb-2">Описание</label>
         <textarea
           id="description"
           v-model="newTodo.description"
           placeholder="Введите описание задачи"
           required
+          class="w-full p-2 border border-gray-300 rounded min-h-[100px] resize-y"
         ></textarea>
       </div>
-      <button type="submit" :disabled="todosStore.isLoading">
+      <button
+        type="submit"
+        :disabled="todosStore.isLoading"
+        class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+      >
         {{ todosStore.isLoading ? "Добавление..." : "Добавить задачу" }}
       </button>
     </form>
 
-    <div v-if="todosStore.todos.length === 0" class="no-todos">
+    <div
+      v-if="todosStore.todos.length === 0"
+      class="p-4 my-4 text-center bg-yellow-50 rounded"
+    >
       Задач пока нет. Добавьте первую задачу выше!
     </div>
 
-    <div v-else class="todos-list">
-      <h2>Ваши задачи</h2>
+    <div v-else class="flex flex-col gap-4">
+      <h2 class="text-xl font-semibold mb-2">Ваши задачи</h2>
       <div
         v-for="todo in todosStore.todos"
         :key="todo.id"
-        class="todo-item"
-        :class="{ completed: todo.completed }"
+        class="bg-white rounded-lg shadow-md p-4 flex flex-col gap-4"
+        :class="{ 'border-l-4 border-green-500': todo.completed }"
       >
-        <div class="todo-content">
-          <h3>{{ todo.title }}</h3>
-          <p>{{ todo.description }}</p>
-          <div class="todo-meta">
+        <div>
+          <h3
+            class="font-medium mb-2"
+            :class="{ 'line-through text-gray-500': todo.completed }"
+          >
+            {{ todo.title }}
+          </h3>
+          <p class="mb-2">{{ todo.description }}</p>
+          <div class="flex justify-between text-gray-500 text-sm mt-2">
             <span
               >Создано: {{ new Date(todo.createdAt).toLocaleString() }}</span
             >
@@ -60,16 +83,24 @@
             >
           </div>
         </div>
-        <div class="todo-actions">
+        <div class="flex gap-2">
           <button
             @click="toggleTodoStatus(todo.id)"
-            :class="[todo.completed ? 'btn-incomplete' : 'btn-complete']"
+            :class="[
+              'py-1 px-3 rounded text-white transition-colors',
+              todo.completed
+                ? 'bg-yellow-500 hover:bg-yellow-600'
+                : 'bg-green-500 hover:bg-green-600',
+            ]"
           >
             {{
               todo.completed ? "Вернуть в работу" : "Отметить как выполненную"
             }}
           </button>
-          <button @click="deleteTodo(todo.id)" class="btn-delete">
+          <button
+            @click="deleteTodo(todo.id)"
+            class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded transition-colors"
+          >
             Удалить
           </button>
         </div>
@@ -116,135 +147,3 @@ onMounted(() => {
   todosStore.fetchTodos();
 });
 </script>
-
-<style scoped>
-.todo-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.loading,
-.error,
-.no-todos {
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: var(--border-radius);
-  text-align: center;
-}
-
-.loading {
-  background-color: #f2f2f2;
-}
-
-.error {
-  background-color: #ffebee;
-  color: #c62828;
-}
-
-.todo-form {
-  background-color: #fff;
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-input,
-textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: var(--border-radius);
-  font-family: inherit;
-  font-size: 1rem;
-}
-
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-button {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: var(--color-secondary);
-}
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.todos-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.todo-item {
-  background-color: #fff;
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.todo-item.completed {
-  border-left: 4px solid var(--color-primary);
-}
-
-.todo-item.completed h3 {
-  text-decoration: line-through;
-  color: #666;
-}
-
-.todo-content h3 {
-  margin-bottom: 0.5rem;
-}
-
-.todo-meta {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.5rem;
-  color: #666;
-  font-size: 0.8rem;
-}
-
-.todo-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.btn-complete {
-  background-color: var(--color-primary);
-}
-
-.btn-incomplete {
-  background-color: #ff9800;
-}
-
-.btn-delete {
-  background-color: #f44336;
-}
-</style>
