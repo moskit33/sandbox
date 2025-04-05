@@ -47,7 +47,7 @@
         :disabled="todosStore.isLoading"
         class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
-        {{ todosStore.isLoading ? "Добавление..." : "Добавить задачу" }}
+        {{ todosStore.isLoading ? 'Добавление...' : 'Добавить задачу' }}
       </button>
     </form>
 
@@ -69,7 +69,9 @@
         <div>
           <h3
             class="font-medium mb-2"
-            :class="{ 'line-through text-gray-500': todo.completed }"
+            :class="{
+              'line-through text-gray-500': todo.completed,
+            }"
           >
             {{ todo.title }}
           </h3>
@@ -94,7 +96,7 @@
             ]"
           >
             {{
-              todo.completed ? "Вернуть в работу" : "Отметить как выполненную"
+              todo.completed ? 'Вернуть в работу' : 'Отметить как выполненную'
             }}
           </button>
           <button
@@ -110,14 +112,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive } from "vue";
-import { useTodosStore } from "../stores/todos";
+import { onMounted, reactive } from 'vue';
+import { useTodosStore } from '../stores/todos';
 
 const todosStore = useTodosStore();
 
 const newTodo = reactive({
-  title: "",
-  description: "",
+  title: '',
+  description: '',
 });
 
 async function addTodo() {
@@ -128,8 +130,8 @@ async function addTodo() {
     });
 
     // Reset form after submission
-    newTodo.title = "";
-    newTodo.description = "";
+    newTodo.title = '';
+    newTodo.description = '';
   }
 }
 
@@ -138,7 +140,7 @@ async function toggleTodoStatus(id: number) {
 }
 
 async function deleteTodo(id: number) {
-  if (confirm("Вы уверены, что хотите удалить эту задачу?")) {
+  if (confirm('Вы уверены, что хотите удалить эту задачу?')) {
     await todosStore.deleteTodo(id);
   }
 }

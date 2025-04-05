@@ -1,21 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
 @import './base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-}
-
-a {
-  text-decoration: none;
-  color: var(--color-primary);
-  transition: 0.3s;
-}
-
-a:hover {
-  color: var(--color-secondary);
-}
+@import 'tailwindcss';
+@import 'flowbite/src/themes/default';
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
 
 h1,
 h2,
@@ -26,32 +14,3 @@ h6 {
   font-weight: bold;
   margin-bottom: 1rem;
 }
-
-button {
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 1em;
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  padding: 0.5em 1em;
-  border-radius: var(--border-radius);
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: var(--color-secondary);
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr;
-    padding: 0 2rem;
-  }
-} 

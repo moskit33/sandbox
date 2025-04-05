@@ -14,10 +14,7 @@
       <h2 class="text-2xl font-semibold mb-4">Счетчик Pinia</h2>
       <p class="mb-2">Значение: {{ counter.count }}</p>
       <p class="mb-4">Удвоенное значение: {{ counter.doubleCount }}</p>
-      <button
-        @click="counter.increment()"
-        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors"
-      >
+      <button @click="counter.increment()" class="btn btn-primary">
         Увеличить счетчик
       </button>
     </div>
